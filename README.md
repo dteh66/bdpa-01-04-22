@@ -1,9 +1,7 @@
 # BDPA Problem Statement 2021
 ----------
 
-To clone repository:
-1. Console `git clone https://github.com/C4theBomb/bdpa-problem-2021.git`.
-2. Console `npm i` in both the client and backend directories.
+Original code/forked from: https://github.com/C4theBomb/bdpa-problem-2021.
 
 Client contains the frontend react app, backend contains all api and express code.
 
