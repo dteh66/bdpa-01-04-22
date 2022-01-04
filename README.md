@@ -8,3 +8,5 @@ Client contains the frontend react app, backend contains all api and express cod
 To run project:
 1. Run `npm start` in the react directory.
 2. Run `npm run dev` in the backend directory.
+
+"test commit"
