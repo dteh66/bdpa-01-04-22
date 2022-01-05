@@ -4,7 +4,10 @@ const app = require('./app')
 const mongoose = require('mongoose')
 const port = 3001
 
-mongoose.connect(process.env.CONNECTION_STRING, { useNewUrlParser: true }, err => {
+mongoose.connect(process.env.CONNECTION_STRING, 
+    { useNewUrlParser: true,
+     useUnifiedTopology: true },
+    err => {
     if (err) {
         console.log('Oh no', err)
         return

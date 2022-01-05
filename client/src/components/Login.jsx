@@ -10,7 +10,11 @@ import {
     Checkbox,
 } from '@material-ui/core';
 
+import { UserContext } from "../contexts/User";
+
 function Login(props) {
+    const [state, dispatch] = React.useContext(UserContext)
+
     const [form, setForm] = useState({
         login: '',
         password: '',
@@ -20,6 +24,7 @@ function Login(props) {
     const history = useHistory();
     const API_URL = process.env.REACT_APP_APIURL
 
+    
     // If token cookie already exists, delete token and cookie
     useEffect(() => {
         if (Cookies.get('token')) {
@@ -52,18 +57,16 @@ function Login(props) {
     }
 
     async function handleSubmit(e) {
-        console.log("Cookie test 1")
         e.preventDefault();
         setError(() => '');
         await axios
             //.post(API_URL + '/auth/generate-token/', form)
             .post('/auth/generate-token/', form)
             .then((response) => {
-                console.log("Cookie test 2")
+                dispatch({ type: "logged_in" });
                 Cookies.set('token', response.data.token, {
                     expires: form.remember ? null : 1 / 24,
                 });
-                console.log("Cookie test 3")
                 history.push('/');
             })
             .catch((error) => {

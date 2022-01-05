@@ -34,13 +34,10 @@ function Register(props) {
             .post('/auth/create-user/', form)
             //.post(API_URL + '/auth/create-user/', form)
             .then((response) => {
-                console.log("inside .then")
                 history.push('/login');
             })
             .catch((error) => {
-                console.log("hi there was an error")
                 console.log(error)
-                console.log("hi there was an error2")
                  //if err.message.equals(";dfh")
                 //error.message
                 // if (error.status === 409) { console.log("Email taken") }
