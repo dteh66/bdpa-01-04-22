@@ -1,21 +1,20 @@
 const Tokens = require('../models/Token');
 
-const GetUsernameViaToken = async (req, res, next) => {
-    try {
-        const token = req.data
-        const result = await Tokens.find({ 'token': token }).
-            limit(10). //aggregation, just incase DeleteToken isn't implemented properly
-            sort('-created').
-            select('user');
-        //.create, .find, and more functions can be found on https://mongoosejs.com/docs/queries.html
-        console.log(result, 1919)
-        res.send(result)
-        next()
-    } catch (e) {
-        const err = new Error("You're missing something")
-        next(e) //express knows to stop anything afterward, just sends error back
-    }
+const express = require('express'), bodyParser = require('body-parser'), jsonWebToken = require('jsonwebtoken')
+const tokenSignature = "secretTokenSignature"
+
+const createToken = email => {
+    const token = jsonWebToken.sign({ email }, tokenSignature, { expiresIn: "2h" })
+    return token
 }
 
+const getUserToken = (req, res) => {
+    const token = createToken(req.email)
+    res.status(200).json({ token, role: req.role })
+}
+
+const getUserTokenRoute = express.Router()
+getUserTokenRoute.post('/', bodyParser.json(), getUserToken)
+module.exports = getUserTokenRoute
 module.exports = GetUsernameViaToken
 

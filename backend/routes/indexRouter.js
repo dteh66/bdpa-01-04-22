@@ -12,10 +12,10 @@ const DeleteBark = require('./index/DeleteBark');
 
 router.get('/', GetBarks);
 router.get('/:id', GetOneBark);
-//router.get('/pack', tokenAuth, GetPackBarks);
-//router.get('/bookmarks', tokenAuth, GetBookmarkedBarks);
-//router.post('/create', tokenAuth, CreateBark);
-//router.delete('/:id/delete', tokenAuth, DeleteBark);
+router.get('/pack', tokenAuth, GetPackBarks);
+router.get('/bookmarks', tokenAuth, GetBookmarkedBarks);
+router.post('/create', tokenAuth, CreateBark);
+router.delete('/:id/delete', tokenAuth, DeleteBark);
 
 
 

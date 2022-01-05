@@ -1,5 +1,5 @@
-const { sha512 } = require('crypto-hash');
-const { v4: uuidv4 } = require('uuid');
+// const { sha512 } = require('crypto-hash');
+// const { v4: uuidv4 } = require('uuid');
 
 const Tokens = require('../../models/Token');
 /*
@@ -34,7 +34,7 @@ module.exports = GenerateToken;
 */
 
 const express = require('express'), bodyParser = require('body-parser'), jsonWebToken = require('jsonwebtoken')
-const tokenSignature = "secretTokenSignature"
+const tokenSignature = process.env.tokenSignature;
 
 const createToken = email => {
     const token = jsonWebToken.sign({ email }, tokenSignature, { expiresIn: "2h" })
@@ -46,7 +46,5 @@ const getUserToken = (req, res) => {
     res.status(200).json({ token, role: req.role })
 }
 
-const getUserTokenRoute = express.Router()
-getUserTokenRoute.post('/', bodyParser.json(), getUserToken)
 module.exports = getUserTokenRoute
 

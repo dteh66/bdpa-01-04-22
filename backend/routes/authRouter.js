@@ -13,7 +13,7 @@ const ResetPassword = require('./auth/ResetPassword');
 
 
 router.post('/create-user', CreateUser);
-//router.post('/generate-token', basicAuth, GenerateToken);
+router.post('/generate-token', basicAuth, bodyParser.json(), GenerateToken);
 //router.delete('/delete-token', tokenAuth, DeleteToken);
 router.post('/reset-password', RequestReset);
 router.patch('/reset-password/:resetRequest', ResetPassword);
