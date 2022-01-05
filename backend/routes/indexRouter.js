@@ -11,10 +11,13 @@ const CreateBark = require('./index/CreateBark');
 const DeleteBark = require('./index/DeleteBark');
 
 router.get('/', GetBarks);
-router.get('/pack', tokenAuth, GetPackBarks);
-router.get('/bookmarks', tokenAuth, GetBookmarkedBarks);
 router.get('/:id', GetOneBark);
-router.post('/create', tokenAuth, CreateBark);
-router.delete('/:id/delete', tokenAuth, DeleteBark);
+//router.get('/pack', tokenAuth, GetPackBarks);
+//router.get('/bookmarks', tokenAuth, GetBookmarkedBarks);
+//router.post('/create', tokenAuth, CreateBark);
+//router.delete('/:id/delete', tokenAuth, DeleteBark);
+
+
+
 
 module.exports = router;
