@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from "react-router-dom";
 import {
   makeStyles, AppBar, Toolbar, Typography, IconButton, Button, Menu, MenuItem, Avatar,
@@ -19,13 +19,11 @@ export default function Navbar() {
   }));
   const classes = useStyles();
 
-  const [state, dispatch] = React.useContext(UserContext);
+  const [state, dispatch] = useContext(UserContext)
 
-  //const [state, dispatch] = React.useContext(UserContext)
-  
   //axios.get(`/barks?token=${Cookies.get{'token'})
   //axios.post('/barks', {token: Cookies.get('token')})
-  
+
   /*
   useEffect(() => {
       const curToken = Cookies.get('token');
@@ -57,14 +55,14 @@ export default function Navbar() {
   };
 
   async function handleLogout() {
-    
+
     dispatch({ type: "logged_out" });
     var curToken = Cookies.get('token')
     Cookies.remove('token')
     await axios.delete(`http://localhost:3001/auth/delete-token`, {
-        data: {
-            curToken,
-        },
+      data: {
+        curToken,
+      },
     });
     //setToken(() => '');
     token = null
@@ -99,32 +97,21 @@ export default function Navbar() {
         </div>
         <Typography variant="h6" className={classes.title}>Navigate</Typography>
         <Avatar alt="Creative Tail Animal cat" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Creative-Tail-Animal-cat.svg/128px-Creative-Tail-Animal-cat.svg.png" />
-        {token && (
+        {token ? <>
+          <Button>{state.username}</Button>
+          <Button>
+            <Link to='/login'>Logout</Link>
+          </Button>
+        </>
+          : <>
             <Button>
-                { state.username }
+              <Link to='/register'>Register</Link>
             </Button>
-        )}
-        {token && (
             <Button>
-                <Link to='/login'>
-                    Logout
-                </Link>
+              <Link to='/login'>Login</Link>
             </Button>
-        )}
-        {!token && (
-            <Button>
-                <Link to='/register'>
-                    Register
-                </Link>
-            </Button>
-        )}
-        {!token && (
-            <Button>
-                <Link to='/login'>
-                    Login
-                </Link>
-            </Button>
-        )}
+          </>
+        }
 
       </Toolbar>
     </AppBar>

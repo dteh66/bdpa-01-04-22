@@ -8,8 +8,8 @@ const GetUsernameViaToken = async (req, res, next) => {
             sort('-created').
             select('user');
         //.create, .find, and more functions can be found on https://mongoosejs.com/docs/queries.html
-
-        return result;
+        console.log(result, 1919)
+        res.send(result)
         next()
     } catch (e) {
         const err = new Error("You're missing something")

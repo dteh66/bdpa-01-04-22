@@ -1,5 +1,5 @@
-import Cookies from 'js-cookie';
-import axios from 'axios';
+// import Cookies from 'js-cookie';
+// import axios from 'axios';
 export const reducer = (state, action) => {
     switch (action.type) {
         case "logged_out":
@@ -17,13 +17,13 @@ export const reducer = (state, action) => {
     }
 }
 
-async function getUser() {
-    const curToken = Cookies.get('token');
+// async function getUser() {
+//     const curToken = Cookies.get('token');
 
-    await axios.get(`http://localhost:3001/auth/get-username`, 
-        { data: { curToken } });
-}
+//     await axios.get(`http://localhost:3001/auth/get-username`, 
+//         { data: { curToken } });
+// }
 
 export const initialState = {
-    username: getUser() || "Not Logged In"
+    username: "Not Logged In"
 }
