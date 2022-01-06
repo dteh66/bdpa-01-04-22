@@ -2,6 +2,7 @@ const { sha512 } = require('crypto-hash');
 const Users = require('../../models/User');
 async function CreateUser(req, res, next) {
     try {
+        console.log(112233)
         const body = req.body;
         // Find existing users with the same username or email, if any, break
         const existingUsers = await Users.find({
@@ -12,7 +13,7 @@ async function CreateUser(req, res, next) {
                 .status(409)
                 .send('A user with that username or email already exists');
         }
-
+        console.log(445566)
         const passwordHash = await sha512(body.password);
         const result = await Users.create({ ...body, password: passwordHash });
 

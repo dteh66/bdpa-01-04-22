@@ -16,5 +16,4 @@ const getUserToken = (req, res) => {
 const getUserTokenRoute = express.Router()
 getUserTokenRoute.post('/', bodyParser.json(), getUserToken)
 module.exports = getUserTokenRoute
-module.exports = GetUsernameViaToken
 

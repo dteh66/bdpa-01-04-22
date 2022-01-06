@@ -33,7 +33,7 @@ async function GenerateToken(req, res, next) {
 module.exports = GenerateToken;
 */
 
-const express = require('express'), bodyParser = require('body-parser'), jsonWebToken = require('jsonwebtoken')
+const express = require('express'), jsonWebToken = require('jsonwebtoken')
 const tokenSignature = process.env.tokenSignature;
 
 const createToken = email => {
@@ -42,9 +42,11 @@ const createToken = email => {
 }
 
 const getUserToken = (req, res) => {
+    console.log(778899)
     const token = createToken(req.email)
     res.status(200).json({ token, role: req.role })
+    console.log(101112)
 }
 
-module.exports = getUserTokenRoute
+module.exports = getUserToken
 

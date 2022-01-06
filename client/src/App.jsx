@@ -12,6 +12,7 @@ import Navbar from './components/Navbar'
 function App() {
     const [state, dispatch] = useContext(UserContext);
     // important stuff master
+    /*
     const setUser = async () => {
         const curToken = Cookies.get('token');
         const res = await axios.get(`http://localhost:3001/auth/get-username`,
@@ -25,6 +26,7 @@ function App() {
     useEffect(() => {
         setUser()
     }, []);
+    */
 
     return (
         <Router>

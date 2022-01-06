@@ -28,6 +28,7 @@ function Login(props) {
     // If token cookie already exists, delete token and cookie
     useEffect(() => {
         if (Cookies.get('token')) {
+            /*
             async function logout() {
                 await axios
                     .delete(`/auth/delete-token?token=${Cookies.get('token')}`)
@@ -36,6 +37,7 @@ function Login(props) {
                     });
             }
             logout();
+            */
             Cookies.remove('token');
         }
     }, [history]);
@@ -59,15 +61,18 @@ function Login(props) {
     async function handleSubmit(e) {
         e.preventDefault();
         setError(() => '');
+        console.log(123)
         await axios
             //.post(API_URL + '/auth/generate-token/', form)
             .post('/auth/generate-token/', form)
             .then((response) => {
+                console.log(456)
                 dispatch({ type: "logged_in" });
                 Cookies.set('token', response.data.token, {
                     expires: form.remember ? null : 1 / 24,
                 });
                 history.push('/');
+                console.log(789)
             })
             .catch((error) => {
                 console.log(error)
