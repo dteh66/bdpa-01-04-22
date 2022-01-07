@@ -1,7 +1,6 @@
 // const { sha512 } = require('crypto-hash');
 // const { v4: uuidv4 } = require('uuid');
-
-const Tokens = require('../../models/Token');
+//const Tokens = require('../../models/Token');
 /*
 async function GenerateToken(req, res, next) {
     console.log("initiating token generation...")
@@ -33,19 +32,23 @@ async function GenerateToken(req, res, next) {
 module.exports = GenerateToken;
 */
 
-const express = require('express'), jsonWebToken = require('jsonwebtoken')
+// const express = require('express')
+const jsonWebToken = require('jsonwebtoken')
 const tokenSignature = process.env.tokenSignature;
+
+const { findUser } = require('../../services/userServices.js')
 
 const createToken = email => {
     const token = jsonWebToken.sign({ email }, tokenSignature, { expiresIn: "2h" })
     return token
 }
 
-const getUserToken = (req, res) => {
-    console.log(778899)
-    const token = createToken(req.email)
-    res.status(200).json({ token, role: req.role })
-    console.log(101112)
+const getUserToken = async (req, res) => {
+    const email = req.user.email
+    const token = createToken(email)
+    const username = await findUser(email).username
+    res.status(200).json({ token, email, username, role: req.role }) //role is admin/normal user?
+
 }
 
 module.exports = getUserToken

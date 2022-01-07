@@ -1,4 +1,4 @@
-// import Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 // import axios from 'axios';
 export const reducer = (state, action) => {
     switch (action.type) {
@@ -17,13 +17,9 @@ export const reducer = (state, action) => {
     }
 }
 
-// async function getUser() {
-//     const curToken = Cookies.get('token');
-
-//     await axios.get(`http://localhost:3001/auth/get-username`, 
-//         { data: { curToken } });
-// }
-
+function getUser() {
+    const curToken = Cookies.get('token');
+}
 export const initialState = {
     username: "Not Logged In"
 }

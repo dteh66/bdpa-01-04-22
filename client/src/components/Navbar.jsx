@@ -10,8 +10,11 @@ import Cookies from 'js-cookie';
 import { UserContext } from "../contexts/User";
 
 export default function Navbar() {
-  var token = Cookies.get('token') || null
-  console.log("token is " + token);
+
+  const [state, dispatch] = useContext(UserContext)
+
+  var token = Cookies.get('token') || null;
+  //console.log("token is " + token);
   const useStyles = makeStyles((theme) => ({
     title: {
       flexGrow: 1,
@@ -19,12 +22,11 @@ export default function Navbar() {
   }));
   const classes = useStyles();
 
-  const [state, dispatch] = useContext(UserContext)
 
   //axios.get(`/barks?token=${Cookies.get{'token'})
   //axios.post('/barks', {token: Cookies.get('token')})
 
-  /*
+  
   useEffect(() => {
       const curToken = Cookies.get('token');
       console.log(curToken);
@@ -42,8 +44,8 @@ export default function Navbar() {
 
       console.log("hi" + res);
       dispatch({ type : "logged_in", username: res });
-    }, []);
-    */
+    }, [Cookies.get('token')]);
+
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
@@ -57,15 +59,16 @@ export default function Navbar() {
   async function handleLogout() {
 
     dispatch({ type: "logged_out" });
-    var curToken = Cookies.get('token')
+    //var curToken = Cookies.get('token')
     Cookies.remove('token')
+    /*
     await axios.delete(`http://localhost:3001/auth/delete-token`, {
       data: {
         curToken,
       },
     });
+    */
     //setToken(() => '');
-    token = null
   }
 
   return (
