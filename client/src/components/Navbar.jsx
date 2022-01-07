@@ -56,19 +56,9 @@ export default function Navbar() {
     setAnchorEl(null);
   };
 
-  async function handleLogout() {
-
+  function handleLogout() {
     dispatch({ type: "logged_out" });
-    //var curToken = Cookies.get('token')
     Cookies.remove('token')
-    /*
-    await axios.delete(`http://localhost:3001/auth/delete-token`, {
-      data: {
-        curToken,
-      },
-    });
-    */
-    //setToken(() => '');
   }
 
   return (
@@ -101,7 +91,9 @@ export default function Navbar() {
         <Typography variant="h6" className={classes.title}>Navigate</Typography>
         <Avatar alt="Creative Tail Animal cat" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Creative-Tail-Animal-cat.svg/128px-Creative-Tail-Animal-cat.svg.png" />
         {token ? <>
-          <Button>{state.username}</Button>
+          <Button>
+            {state.username}
+          </Button>
           <Button>
             <Link to='/login'>Logout</Link>
           </Button>
