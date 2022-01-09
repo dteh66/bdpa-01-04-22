@@ -41,6 +41,9 @@ function App() {
                 <Route path='/register'>
                     <Register />
                 </Route>
+                <Route path='/barkcreate'>
+                    <BarkCreate />
+                </Route>
                 <Route path='/pack'>{/* <Pack /> */}</Route>
                 <Route path='/bookmarks'>
                     <Bookmarks />
