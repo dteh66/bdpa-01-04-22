@@ -8,26 +8,29 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Bookmarks from './components/Bookmarks'
 import Navbar from './components/Navbar'
+import BarkCreate from './components/BarkCreate'
 
 function App() {
     const [state, dispatch] = useContext(UserContext);
     // important stuff master
-    /*
-    const setUser = async () => {
-        const curToken = Cookies.get('token');
-        const res = await axios.get(`http://localhost:3001/auth/get-username`,
-            { data: { curToken } })
-            .catch((e) => {
-                console.log(e);
-            })
-            .then(res => res.data)
-        dispatch({ type: "logged_in", username: res })
-    }
-    useEffect(() => {
-        setUser()
-    }, []);
-    */
+    // const setUser = async () => {
+    //     const curToken = Cookies.get('token');
+    //     const userInfo = await axios.get(`http://localhost:3001/auth/get-user-info`, {
+    //         headers: {
+    //           'Authorization': 'Bearer ' + curToken
+    //         }
+    //       });
+    //     console.log(321, userInfo)
+    //     dispatch({ type: "logged_in", username: userInfo.data.username })
+    // }
 
+    useEffect(() => {
+        if (Cookies.get('token')) {
+            dispatch({ type: "getUser" })
+        }
+    }, []);
+
+    // <button onClick={async () => await dispatch({ type: "getUser" })}>1</button>
     return (
         <Router>
             <Navbar />

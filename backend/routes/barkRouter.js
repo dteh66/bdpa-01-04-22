@@ -3,20 +3,19 @@ var router = express.Router();
 
 const tokenAuth = require('../middleware/tokenAuth');
 
-const GetBarks = require('./index/GetBarks');
-const GetPackBarks = require('./index/GetPackBarks');
-const GetBookmarkedBarks = require('./index/GetBookmarkedBarks');
-const GetOneBark = require('./index/GetOneBark');
-const CreateBark = require('./index/CreateBark');
-const DeleteBark = require('./index/DeleteBark');
+const GetBarks = require('./bark/GetBarks');
+const GetPackBarks = require('./bark/GetPackBarks');
+const GetBookmarkedBarks = require('./bark/GetBookmarkedBarks');
+const GetOneBark = require('./bark/GetOneBark');
+const CreateBark = require('./bark/CreateBark');
+const DeleteBark = require('./bark/DeleteBark');
 
-router.get('/', GetBarks);
+router.get('/', tokenAuth, GetBarks);
 router.get('/:id', GetOneBark);
 router.get('/pack', tokenAuth, GetPackBarks);
 router.get('/bookmarks', tokenAuth, GetBookmarkedBarks);
 router.post('/create', tokenAuth, CreateBark);
 router.delete('/:id/delete', tokenAuth, DeleteBark);
-
 
 
 

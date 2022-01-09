@@ -14,11 +14,11 @@ const ResetPassword = require('./auth/ResetPassword');
 const GetUserFromToken = require('./auth/GetUserInfo');
 
 router.post('/create-user', CreateUser);
-router.post('/generate-token', basicAuth, bodyParser.json(), GenerateToken);
+router.post('/generate-token', bodyParser.json(), basicAuth, GenerateToken);
 //router.delete('/delete-token', tokenAuth, DeleteToken);
 router.post('/reset-password', RequestReset);
 router.patch('/reset-password/:resetRequest', ResetPassword);
-router.get('/get-user-info', tokenAuth, GetUserFromToken);
+router.get('/get-user-info', bodyParser.json(), tokenAuth, GetUserFromToken);
 
 
 module.exports = router;

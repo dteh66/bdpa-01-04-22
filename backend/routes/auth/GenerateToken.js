@@ -44,6 +44,7 @@ const createToken = email => {
 }
 
 const getUserToken = async (req, res) => {
+    console.log("getting user info from token...")
     const email = req.user.email
     const token = createToken(email)
     const username = await findUser(email).username

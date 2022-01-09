@@ -26,10 +26,8 @@ function Register(props) {
     }
 
     async function handleSubmit(e) {
-        console.log(API_URL)
         e.preventDefault();
         setError(() => '');
-        console.log("outside axios await")
         await axios
             .post('/auth/create-user/', form)
             //.post(API_URL + '/auth/create-user/', form)

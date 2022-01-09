@@ -2,9 +2,11 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
+const bodyParser = require('body-parser')
+
 
 const authRouter = require('./routes/authRouter');
-const indexRouter = require('./routes/indexRouter');
+const barkRouter = require('./routes/barkRouter');
 
 var app = express();
 var cors = require('cors')
@@ -21,9 +23,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors())
+app.use(bodyParser.json());
 
 app.use('/auth', authRouter);
-app.use('/barks', indexRouter);
+app.use('/barks', barkRouter);
 
 // error handler
 app.use(function (err, req, res, next) {

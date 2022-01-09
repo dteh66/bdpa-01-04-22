@@ -11,6 +11,8 @@ import { Link } from "react-router-dom"
 
 import Bark from '../templates/Bark';
 
+import BarkCreate from './BarkCreate'
+
 export default function Home({ token }) {
 
   //const username = await axios.get(`/barks?token=${Cookies.get("token")}`)
@@ -31,6 +33,7 @@ export default function Home({ token }) {
   const [renderedPosts, setRenderedPosts] = useState([]);
   const itemLimit = 10;
   const columns = ["id", "title", "body"];
+
   useEffect(() => {
     const updatePosts = async () => {
       // setPosts(await getPosts('http://localhost:3001/api', token))
@@ -52,7 +55,11 @@ export default function Home({ token }) {
 
   return (
     <>
-      {!token && <Link to='/login' />}
+      {!token ? 
+        <Link to='/login' />
+        :
+        <BarkCreate />
+      }
       <Grid container direction='column' justify='flex-start'>
         {renderedPosts.map((post) => {
           return <Bark key={post._id} object={post} />;

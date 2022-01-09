@@ -10,11 +10,6 @@ import Cookies from 'js-cookie';
 import { UserContext } from "../contexts/User";
 
 export default function Navbar() {
-
-  const [state, dispatch] = useContext(UserContext)
-
-  var token = Cookies.get('token') || null;
-  //console.log("token is " + token);
   const useStyles = makeStyles((theme) => ({
     title: {
       flexGrow: 1,
@@ -22,29 +17,15 @@ export default function Navbar() {
   }));
   const classes = useStyles();
 
+  const [state, dispatch] = useContext(UserContext)
+  const [username, setUsername] = useState(state.username);
+  
 
   //axios.get(`/barks?token=${Cookies.get{'token'})
   //axios.post('/barks', {token: Cookies.get('token')})
-
-  
   useEffect(() => {
-      const curToken = Cookies.get('token');
-      console.log(curToken);
-      async function getUser() {
-          await axios.get(`http://localhost:3001/auth/get-username`, 
-              { data: { curToken } })
-              .catch((e) => {
-                  console.log(e);
-              })
-              .then(res => {
-                  return res.data;
-              });
-      }
-      const res = getUser();
-
-      console.log("hi" + res);
-      dispatch({ type : "logged_in", username: res });
-    }, [Cookies.get('token')]);
+    setUsername(state.username)
+  }, [state.username]);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -56,11 +37,11 @@ export default function Navbar() {
     setAnchorEl(null);
   };
 
-  function handleLogout() {
+  async function handleLogout() {
     dispatch({ type: "logged_out" });
-    Cookies.remove('token')
+    Cookies.remove('token') //cookie actually does remove. Just need to refresh
   }
-
+  //<button onClick={() => console.log(1233, state)}>asdf</button>
   return (
     <AppBar position="static">
       <Toolbar variant="dense">
@@ -87,14 +68,29 @@ export default function Navbar() {
               <Link to="/home">Layout</Link>
             </MenuItem>
           </Menu>
+          {username ? <>
+          <Button>{state.username}</Button>
+          <Button>
+            <Link to='/barkcreate'>
+              Create Post
+            </Link>
+          </Button>
+        </>
+          : <>
+            <Button>
+              <Link to='/login'>
+                Login to Post
+              </Link>
+            </Button>
+          </>
+        }
+
         </div>
         <Typography variant="h6" className={classes.title}>Navigate</Typography>
         <Avatar alt="Creative Tail Animal cat" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Creative-Tail-Animal-cat.svg/128px-Creative-Tail-Animal-cat.svg.png" />
-        {token ? <>
-          <Button>
-            {state.username}
-          </Button>
-          <Button>
+        {username ? <>
+          <Button>{state.username}</Button>
+          <Button onClick = {handleLogout}>
             <Link to='/login'>Logout</Link>
           </Button>
         </>

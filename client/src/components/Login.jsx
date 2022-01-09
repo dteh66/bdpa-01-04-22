@@ -66,18 +66,17 @@ function Login(props) {
             
             .post('/auth/generate-token/', form)
             .then((response) => {
-                console.log(response)
                 //dispatch({ type: "logged_in" });
                 Cookies.set('token', response.data.token, {
                     expires: form.remember ? null : 1 / 24,
                 });
                 history.push('/');
-                console.log(state, 789)
             })
             .catch((error) => {
                 console.log(error)
                 //setError(() => error.response.data);
             });
+        dispatch({ type: "getUser" })
     }
 
     return (

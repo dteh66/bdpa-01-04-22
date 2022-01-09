@@ -1,25 +1,34 @@
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 // import axios from 'axios';
-export const reducer = (state, action) => {
+import { getUserInfo } from "../../services/userServices"
+export const reducer = async (state, action) => {
     switch (action.type) {
         case "logged_out":
             return {
                 ...state,
-                username: "Not Logged In"
+                loggedIn: false
             }
         case "logged_in":
             return {
                 ...state,
-                username: action.username
+                loggedIn: true
+            }
+        case "getUser":
+            //needs handling when token is expired.
+            const username = await getUserInfo()
+            //may return nothing, if token expired
+            //console.log(state, username, 54321); 
+            return {
+                ...state,
+                username: username || ""
             }
         default:
             return state
     }
 }
 
-function getUser() {
-    const curToken = Cookies.get('token');
-}
+
 export const initialState = {
-    username: "Not Logged In"
+    username: "",
+    loggedIn: false
 }

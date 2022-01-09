@@ -1,14 +1,15 @@
 const jsonWebToken = require('jsonwebtoken')
 const tokenSignature = process.env.tokenSignature;
+const { findUser } = require('../../services/userServices.js')
 
-const getUserToken = async (req, res) => {
-    const email = req.user.email
-    const token = createToken(email)
-    const username = await findUser(email).username
-    res.status(200).json({ token, email, username, role: req.role }) //role is admin/normal user?
-
+const getUserFromToken = async (req, res) => {
+    //console.log(123, req.headers.authorization.split(" ")[1]);
+    const email = jsonWebToken.verify(req.headers.authorization.split(" ")[1], process.env.tokenSignature).email;
+    //console.log(432, email);
+    const userInfo = await findUser(email);
+    const username = userInfo.username
+    const fullname = userInfo.fullname
+    res.status(200).json({ username, fullname });
 }
 
-const getUserFromToken = token => {
-    return jsonWebToken.verify(token, process.env.tokenSignature);
-}
+module.exports = getUserFromToken

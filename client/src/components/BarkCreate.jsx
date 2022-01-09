@@ -10,6 +10,8 @@ import {
     Checkbox,
 } from '@material-ui/core';
 
+/* Create as part of Home view */
+
 function CreateBarkForm(props) {
     const [form, setForm] = useState({
         author: '',
@@ -46,7 +48,7 @@ function CreateBarkForm(props) {
         e.preventDefault();
         setError(() => '');
         await axios
-            .post(API_URL + '/index/create/', Cookies.get('token'), form)
+            .post(API_URL + '/bark/create/', Cookies.get('token'), form)
             .then((response) => {
                 Cookies.set('token', response.data.token, {
                     expires: form.remember ? null : 1 / 24,
@@ -62,15 +64,17 @@ function CreateBarkForm(props) {
     return (
         <Paper>
             <form onSubmit={handleSubmit}>
-                <Typography variant='h3'>Login</Typography>
+                <Typography variant='h3'>Create Post</Typography>
                 <TextField
+                    multiline
+                    rows="4"
                     required
                     fullWidth
-                    label='Username or Email'
-                    name='login'
+                    label='Content'
+                    name='Content'
                     variant='outlined'
                     onChange={handleChange}
-                    value={form.login}
+                    value={form.content}
                     autoFocus
                 />
                 <TextField
@@ -90,12 +94,6 @@ function CreateBarkForm(props) {
                         alignItems: 'center',
                     }}
                 >
-                    <Typography variant='body1'>Remember Me</Typography>
-                    <Checkbox
-                        onChange={handleCheckboxChange}
-                        name='remember'
-                        value={form.remember}
-                    />
                 </div>
                 {error && (
                     <Typography variant='body2' color='secondary'>
