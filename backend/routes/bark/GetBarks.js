@@ -2,23 +2,25 @@ const Barks = require('../../models/Bark');
 const Tokens = require('../../models/Token');
 const Users = require('../../models/User');
 
-async function GetBarks(req, res, next) {
+const GetBarks = async (req, res, next) => {
     try {
-        const token = req.query.token;
-        if (token) {
-            // Find the user if the token is sent in a query
-            const result = await Tokens.findOne({ token });
-            const userId = result ? result.user : null;
-
-            if (
-                !result ||
-                (result.expired !== null && new Date() < result.expired)
-            ) {
-                await Tokens.deleteMany({ user: userId });
-                return res.status(511).send('Session Expired');
-            }
-            const user = await Users.findById(userId);
-
+        var isLoggedIn = false
+        var user = null
+        const requestHeader = req.headers.authorization
+        if (requestHeader === undefined || requestHeader === null) res.status(401).json({ error: "Unauthorized" })
+        const [type, payload] = requestHeader.split(" ")
+        if (type === "Bearer") {
+            try {
+                const verification = jsonWebToken.verify(payload, tokenSignature)
+                try {
+                    user = await findUser(verification.email)
+                    isLoggedIn = true
+                } catch (error) { console.log("User not found") }
+            } catch (error) { console.log("verification of token unsuccessful") }
+        }
+        
+        if (isLoggedIn && user) {
+            console.log("GetBarks: user logged in and identified.")
             const barks = await Barks.find({
                 author: { $in: user.followedUsers },
                 deleted: false,
@@ -29,8 +31,11 @@ async function GetBarks(req, res, next) {
             });
             return res.status(200).send({ barks, unfollowedBarks });
         } else {
-            const barks = await Barks.find();
-            return res.status(200).send(barks);
+            console.log("GetBarks: no valid user signed in.")
+            const barks = {}
+            const unFollowedBarks = await Barks.find();
+            //console.log(barks, 525)
+            return res.status(200).send({ barks, unFollowedBarks });
         }
     } catch (e) {
         console.log(e);

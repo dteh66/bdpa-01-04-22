@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import {
@@ -21,26 +21,8 @@ function Login(props) {
         remember: false,
     });
     const [error, setError] = useState('');
-    const history = useHistory();
+    const navigate = useNavigate();
     const API_URL = process.env.REACT_APP_APIURL
-
-    
-    // If token cookie already exists, delete token and cookie
-    useEffect(() => {
-        if (Cookies.get('token')) {
-            /*
-            async function logout() {
-                await axios
-                    .delete(`/auth/delete-token?token=${Cookies.get('token')}`)
-                    .catch((e) => {
-                        console.log(e);
-                    });
-            }
-            logout();
-            */
-            Cookies.remove('token');
-        }
-    }, [history]);
 
     function handleChange(e) {
         const name = e.target.name;
@@ -62,19 +44,19 @@ function Login(props) {
         e.preventDefault();
         setError(() => '');
         await axios
-            //.post(API_URL + '/auth/generate-token/', form)
-            
-            .post('/auth/generate-token/', form)
+            .post(API_URL + '/auth/generate-token/', form)
+            // .post('/auth/generate-token/', form)
             .then((response) => {
                 //dispatch({ type: "logged_in" });
                 Cookies.set('token', response.data.token, {
                     expires: form.remember ? null : 1 / 24,
                 });
-                history.push('/');
+                navigate('/');
             })
             .catch((error) => {
                 console.log(error)
                 //setError(() => error.response.data);
+                Cookies.remove('token')
             });
         dispatch({ type: "getUser" })
     }

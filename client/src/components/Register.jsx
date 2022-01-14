@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Paper, TextField, Button, Typography } from '@material-ui/core';
 
@@ -14,7 +14,7 @@ function Register(props) {
         captcha: '',
     });
     const [error, setError] = useState('');
-    const history = useHistory();
+    const navigate = useNavigate();
     const API_URL = process.env.REACT_APP_APIURL
 
     function handleChange(e) {
@@ -32,7 +32,7 @@ function Register(props) {
             .post('/auth/create-user/', form)
             //.post(API_URL + '/auth/create-user/', form)
             .then((response) => {
-                history.push('/login');
+                navigate('/login');
             })
             .catch((error) => {
                 console.log(error)

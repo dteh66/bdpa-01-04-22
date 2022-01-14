@@ -26,7 +26,7 @@ app.use(cors())
 app.use(bodyParser.json());
 
 app.use('/auth', authRouter);
-app.use('/barks', barkRouter);
+app.use('/bark', barkRouter);
 
 // error handler
 app.use(function (err, req, res, next) {

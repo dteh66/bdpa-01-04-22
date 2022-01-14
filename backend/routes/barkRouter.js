@@ -10,7 +10,7 @@ const GetOneBark = require('./bark/GetOneBark');
 const CreateBark = require('./bark/CreateBark');
 const DeleteBark = require('./bark/DeleteBark');
 
-router.get('/', tokenAuth, GetBarks);
+router.get('/', GetBarks);
 router.get('/:id', GetOneBark);
 router.get('/pack', tokenAuth, GetPackBarks);
 router.get('/bookmarks', tokenAuth, GetBookmarkedBarks);

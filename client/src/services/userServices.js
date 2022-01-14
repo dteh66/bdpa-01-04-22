@@ -9,12 +9,12 @@ export const getUserInfo = async () => {
             'Authorization': 'Bearer ' + curToken
         }
     }).catch((error) => {
-        console.log(error, 441133)
+        console.log(error, "getUserInfo failed. Not logged in", 441133)
         return;
     });
     // console.log(321, userInfo)
     if (userInfo) {
-        return userInfo.data.username
+        return userInfo
     }
     return "";
 }

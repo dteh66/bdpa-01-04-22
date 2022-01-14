@@ -49,9 +49,14 @@ const rows = [
   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 ];
 
-export default function DataGridDemo() {
+export default function DataGridDemo(suggestedUsers) {
+  
+  /*for i in suggestedUsers { 
+
+  }*/
   return (
     <div style={{ height: 400, width: '100%' }}>
+      <h1> Follow Suggestions </h1>
       <DataGrid
         rows={rows}
         columns={columns}

@@ -6,7 +6,8 @@ export const reducer = async (state, action) => {
         case "logged_out":
             return {
                 ...state,
-                loggedIn: false
+                loggedIn: false,
+                username: ""
             }
         case "logged_in":
             return {
@@ -15,12 +16,17 @@ export const reducer = async (state, action) => {
             }
         case "getUser":
             //needs handling when token is expired.
-            const username = await getUserInfo()
+            const userInfo = await getUserInfo()
+            const username = userInfo.data.username
+            const uid = userInfo.data._id
             //may return nothing, if token expired
-            //console.log(state, username, 54321); 
+            console.log(state, username, 54321); 
+
             return {
                 ...state,
-                username: username || ""
+                loggedIn: userInfo ? true : false,
+                username: username || "",
+                UID: uid
             }
         default:
             return state
@@ -30,5 +36,6 @@ export const reducer = async (state, action) => {
 
 export const initialState = {
     username: "",
-    loggedIn: false
+    loggedIn: false,
+    UID: null
 }

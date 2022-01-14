@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import { Paper } from '@material-ui/core';
 
+//add condensed and non condensed view. Pass in parameter as a prop
 function Bark({ object, children }) {
-    const { _id, title, body } = object;
+    console.log("Bark: ", object, 123, children)
+    const { _id, author, title, content } = object;
 
     const postStyle = {
     };
@@ -16,7 +18,8 @@ function Bark({ object, children }) {
                 <h1>{title}</h1>
                 {children}
             </div>
-            <p>{body}</p>
+            <p>Author: {author}</p>
+            <p>{content}</p>
         </Paper>
     );
     /*

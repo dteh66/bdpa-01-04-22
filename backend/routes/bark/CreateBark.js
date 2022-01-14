@@ -1,14 +1,31 @@
+const nodemon = require('nodemon');
 const Barks = require('../../models/Bark');
 
 async function CreateBark(req, res, next) {
+    //console.log("CreateBark: start")
     try {
-        const username = req.user.username;
-        const content = req.body.content;
-        if (!username || !content) {
+        console.log("CreateBark: ", req.body)
+        const form = req.body
+        const author = form.author
+        const title = form.title;
+        const content = form.content;
+        if (!author || (!title || !content)) {
             return res.status(400).send('Required fields not supplied.');
         }
 
-        const bark = await Barks.create({ author: username, content });
+        const bark = await Barks.create(
+            { author: author, 
+            title: title,
+            content: content,
+            deleted: false,
+            liked: 0,
+            barkBacks: 0,
+            rebarks: 0,
+            barkBackTo: null,
+            rebarkOf: null,
+            created: form.created
+            }
+        );
         return res.status(200).send(bark);
     } catch (error) {
         console.log(error);

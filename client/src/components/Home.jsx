@@ -8,12 +8,12 @@ import { DataGrid } from '@material-ui/data-grid';
 import { Pagination } from '@material-ui/lab';
 import { getPosts } from './barkFetch';
 import { Link } from "react-router-dom"
-
 import Bark from '../templates/Bark';
-
+import DataGridEx from '../templates/DataGridEx';
 import BarkCreate from './BarkCreate'
+import { UserContext } from "../contexts/User";
 
-export default function Home({ token }) {
+export default function Home() {
 
   //const username = await axios.get(`/barks?token=${Cookies.get("token")}`)
   //console.log(username)
@@ -28,43 +28,65 @@ export default function Home({ token }) {
   //make backend send normal barks. we need to sort these
 
   //sort barks from front end (aka here)
-  const [posts, setPosts] = useState([])
+  const [state, dispatch] = React.useContext(UserContext)
 
+  const [postsFollowed, setPostsFollowed] = useState([])
+  const [postsOther, setPostsOther] = useState([])
   const [renderedPosts, setRenderedPosts] = useState([]);
   const itemLimit = 10;
-  const columns = ["id", "title", "body"];
+  const API_URL = process.env.REACT_APP_APIURL
 
   useEffect(() => {
     const updatePosts = async () => {
-      // setPosts(await getPosts('http://localhost:3001/api', token))
-      setPosts([{ id: 'a12', title: 'asdf', body: 'body' }, 
-                { id: 'a13', title: 'asdf2', body: 'body2' },
-                { id: 'a14', title: 'asdf3', body: 'body3' },
-                { id: 'a15', title: 'asdf4', body: 'body4' }
-              ])
+      const fetchedPosts = await axios.get(API_URL + "/bark/", {
+          headers: {
+              'Authorization': 'Bearer ' + Cookies.get('token')
+          }
+      })
+      .then((response) => {
+          //console.log("Home: getPosts returned ", response.data)
+          console.log(123,response.data.barks, 456, response.data.unfollowedBarks)
+          setPostsFollowed(response.data.barks)
+          setPostsOther(response.data.unfollowedBarks)
+      })
     }
     updatePosts()
   }, []);
-
   useEffect(() => {
     setRenderedPosts(() => {
-      const postSet = posts.slice(0, itemLimit);
-      return postSet;
-    });
-  }, [posts]);
-
+      if (postsFollowed){
+        return postsFollowed.slice(0, 5).concat(postsOther.slice(0, 5))
+      }
+      return postsOther.slice(0,5);
+    })
+  }, [postsFollowed]);
   return (
     <>
-      {!token ? 
-        <Link to='/login' />
-        :
-        <BarkCreate />
+      {!state.loggedIn ? 
+        <Link to='/login' /> :
+        <>
+          <DataGridEx />
+          <br></br>
+          test
+          <br></br>
+          test2
+          <br></br>
+          test3
+        </>
       }
       <Grid container direction='column' justify='flex-start'>
+        test5
         {renderedPosts.map((post) => {
-          return <Bark key={post._id} object={post} />;
+         
+            <Bark key={post._id} object={post}>
+              test6
+              <Link to={`bark/${post._id}`}/>
+            </Bark>
+          
         })}
+
       </Grid>
+      
     </>
   );
   /* possibly use for suggesting followers

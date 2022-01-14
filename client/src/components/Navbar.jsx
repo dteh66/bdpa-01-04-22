@@ -25,7 +25,7 @@ export default function Navbar() {
   //axios.post('/barks', {token: Cookies.get('token')})
   useEffect(() => {
     //setUsername(state.username)
-  }, [state.username]);
+  }, [state.loggedIn]);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -68,27 +68,23 @@ export default function Navbar() {
               <Link to="/home">Layout</Link>
             </MenuItem>
           </Menu>
-          {state.username ? <>
-          <Button>{state.username}</Button>
+        </div>
+        <Typography variant="h6" className={classes.title}>Navigate</Typography>
+        {state.loggedIn ? 
           <Button>
             <Link to='/barkcreate'>
               Create Post
             </Link>
           </Button>
-        </>
-          : <>
+          : 
             <Button>
               <Link to='/login'>
                 Login to Post
               </Link>
             </Button>
-          </>
-        }
-
-        </div>
-        <Typography variant="h6" className={classes.title}>Navigate</Typography>
+          }
         <Avatar alt="Creative Tail Animal cat" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Creative-Tail-Animal-cat.svg/128px-Creative-Tail-Animal-cat.svg.png" />
-        {state.username ? <>
+        {state.loggedIn ? <>
           <Button>{state.username}</Button>
           <Button onClick = {handleLogout}>
             <Link to='/login'>Logout</Link>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { UserContext } from "./contexts/User"
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -9,6 +9,7 @@ import Login from './components/Login';
 import Bookmarks from './components/Bookmarks'
 import Navbar from './components/Navbar'
 import BarkCreate from './components/BarkCreate'
+import OneBarkDisplay from './components/OneBarkDisplay'
 
 function App() {
     const [state, dispatch] = useContext(UserContext);
@@ -32,29 +33,20 @@ function App() {
 
     // <button onClick={async () => await dispatch({ type: "getUser" })}>1</button>
     return (
-        <Router>
+        <BrowserRouter>
             <Navbar />
-            <Switch>
-                <Route path='/login'>
-                    <Login />
-                </Route>
-                <Route path='/register'>
-                    <Register />
-                </Route>
-                <Route path='/barkcreate'>
-                    <BarkCreate />
-                </Route>
-                <Route path='/pack'>{/* <Pack /> */}</Route>
-                <Route path='/bookmarks'>
-                    <Bookmarks />
-                </Route>
-                <Route path='/saved'>{/* <Saved /> */}</Route>
-                <Route path='/recover-password'>{/* <Recovery /> */}</Route>
-                <Route path='/'>
-                    <Home />
-                </Route>
-            </Switch>
-        </Router>
+            <Routes>
+                <Route path='login' element={<Login />} />
+                <Route path='register' element={<Register />} />
+                <Route path='barkcreate' element={<BarkCreate />} />
+                <Route path='pack'>{/* <Pack /> */}</Route>
+                <Route path='bookmarks' element={<Bookmarks />} />
+                <Route path='saved'>{/* <Saved /> */}</Route>
+                <Route path='recover-password'>{/* <Recovery /> */}</Route>
+                <Route path='/' element={<Home />} />
+                <Route path='barkview/:id' element={<OneBarkDisplay />} />
+            </Routes>
+        </BrowserRouter>
     );
 }
 
