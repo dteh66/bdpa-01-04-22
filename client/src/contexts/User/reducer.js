@@ -16,17 +16,25 @@ export const reducer = async (state, action) => {
             }
         case "getUser":
             //needs handling when token is expired.
-            const userInfo = await getUserInfo()
-            const username = userInfo.data.username
-            const uid = userInfo.data._id
-            //may return nothing, if token expired
-            console.log(state, username, 54321); 
-
-            return {
-                ...state,
-                loggedIn: userInfo ? true : false,
-                username: username || "",
-                UID: uid
+            try {
+                const userInfo = await getUserInfo()
+                if (userInfo) {
+                    const username = userInfo.data.username
+                    const uid = userInfo.data._id
+                    //may return nothing, if token expired
+                    console.log("getUser reducer: ", state, userInfo, 54321); 
+        
+                    return {
+                        ...state,
+                        loggedIn: userInfo ? true : false,
+                        username: username || "",
+                        UID: uid,
+                        getUserFetched: true
+                    }
+                }
+            } catch (error) {
+                console.log("Reducer: ", error)
+                return
             }
         default:
             return state
@@ -37,5 +45,6 @@ export const reducer = async (state, action) => {
 export const initialState = {
     username: "",
     loggedIn: false,
-    UID: null
+    UID: null,
+    getUserFetched: false
 }

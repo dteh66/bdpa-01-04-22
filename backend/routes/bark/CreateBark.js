@@ -7,14 +7,16 @@ async function CreateBark(req, res, next) {
         console.log("CreateBark: ", req.body)
         const form = req.body
         const author = form.author
+        const authorID = form.authorID
         const title = form.title;
         const content = form.content;
-        if (!author || (!title || !content)) {
+        if ((!author || !authorID) || (!title || !content)) {
             return res.status(400).send('Required fields not supplied.');
         }
 
         const bark = await Barks.create(
             { author: author, 
+            authorID: authorID,
             title: title,
             content: content,
             deleted: false,

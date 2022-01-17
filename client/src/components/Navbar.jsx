@@ -39,6 +39,7 @@ export default function Navbar() {
 
   async function handleLogout() {
     dispatch({ type: "logged_out" });
+    console.log("hi3")
     Cookies.remove('token') //cookie actually does remove. Just need to refresh
   }
   //<button onClick={() => console.log(1233, state)}>asdf</button>

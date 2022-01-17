@@ -9,7 +9,7 @@ import Login from './components/Login';
 import Bookmarks from './components/Bookmarks'
 import Navbar from './components/Navbar'
 import BarkCreate from './components/BarkCreate'
-import OneBarkDisplay from './components/OneBarkDisplay'
+import Barkview from './components/Barkview'
 
 function App() {
     const [state, dispatch] = useContext(UserContext);
@@ -24,11 +24,20 @@ function App() {
     //     console.log(321, userInfo)
     //     dispatch({ type: "logged_in", username: userInfo.data.username })
     // }
-
+    // if (Cookies.get('token')) {
+    //     dispatch({ type: "getUser" })
+    // }
+    // if (!state.getUserFetched) {
+    //     Cookies.remove('token')
+    // }
     useEffect(() => {
         if (Cookies.get('token')) {
             dispatch({ type: "getUser" })
         }
+        // if (!state.getUserFetched) {
+        //     console.log("hi")
+        //     Cookies.remove('token')
+        // }
     }, []);
 
     // <button onClick={async () => await dispatch({ type: "getUser" })}>1</button>
@@ -44,7 +53,7 @@ function App() {
                 <Route path='saved'>{/* <Saved /> */}</Route>
                 <Route path='recover-password'>{/* <Recovery /> */}</Route>
                 <Route path='/' element={<Home />} />
-                <Route path='barkview/:id' element={<OneBarkDisplay />} />
+                <Route path='barkview/:id' element={<Barkview />} />
             </Routes>
         </BrowserRouter>
     );

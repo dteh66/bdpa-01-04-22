@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const BarksSchema = mongoose.Schema({
     author: { type: String, required: true },
+    authorID: { type: String, required: true},
     title: { type: String, required: true },
     content: { type: String, required: true },
     deleted: { type: Boolean, required: true, default: false },

@@ -8,7 +8,8 @@ const tokenSignature = process.env.tokenSignature;
 
 const tokenAuth = async (req, res, next) => {
     const requestHeader = req.headers.authorization
-    if (requestHeader === undefined || requestHeader === null) res.status(401).json({ error: "Unauthorized" })
+    //console.log("requestHeader: " , requestHeader);
+    if (requestHeader === undefined || requestHeader === null) res.status(401).json({ error: "request header missing!" })
     const [type, payload] = requestHeader.split(" ")
     //console.log("tokenAuth: Type and payload: ", type, payload)
     if (type === "Bearer") {

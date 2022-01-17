@@ -15,9 +15,7 @@ import DataGridEx from '../templates/DataGridEx';
 
 import BarkCreate from './BarkCreate'
 
-export default function OneBarkDisplay() {
-
-
+export default function Barkview() {
   //const username = await axios.get(`/barks?token=${Cookies.get("token")}`)
   //console.log(username)
 
@@ -31,11 +29,15 @@ export default function OneBarkDisplay() {
   //make backend send normal barks. we need to sort these
 
   //sort barks from front end (aka here)
+  const barkID = useParams().id;
+
   const [post, setPost] = useState(null)
   const API_URL = process.env.REACT_APP_APIURL
-  const { barkID } = useParams();
+  
+
   useEffect(() => {
     const updatePost = async () => {
+        console.log("barkID: ", barkID)
         setPost(await axios.get(API_URL + `/bark/${barkID}/`, 
         //{headers: {  'Authorization': 'Bearer ' + Cookies.get('token')}}
         )
@@ -46,10 +48,20 @@ export default function OneBarkDisplay() {
     }
     updatePost()
     console.log(post)
-    console.log("post._id: ", post._id)
-  }, []);
+    //console.log("post._id: ", post._id)
+  }, [barkID]);
 
   return (
-    <Bark key={post._id} object={post}/>
+    post ? 
+    <Bark key={post._id} object={post} view="single"/>
+    :
+    <div>
+      Getting post information...
+    </div>
   )
+    // return (
+    //   <Button onClick={() => console.log(post)}>
+    //     LISUFHD
+    //   </Button>
+    // )
 }

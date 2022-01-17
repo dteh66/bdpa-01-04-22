@@ -1,21 +1,44 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useState, useEffect } from 'react';
 import { Button, Paper, Slide, TextField, Typography } from '@material-ui/core';
 import Navbar from "./Navbar"
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import DataGridEx from '../templates/DataGridEx';
 
-export default function followSuggestions(props) {
-  const currentUser = props.username.id
-
+function FollowSuggestions(props) {
+  const [followSuggestions, setFollowSuggestions] = useState([])
   //axios.get(`/barks?token=${Cookies.get{'token'})
   //axios.post('/barks', {token: Cookies.get('token')})
+  const API_URL = process.env.REACT_APP_APIURL
 
-  const getPosts = async () => {
-    //code needs to call backend, since the function/logic to get related follower suggestions will be in the backend
-
-  };
+  useEffect(() => {
+    const fun = async () => {
+      await axios.get(API_URL + "/auth/get-follow-suggestions", {
+        headers: {
+          'Authorization': 'Bearer ' + Cookies.get('token')
+        }
+      })
+        .then((response) => {
+          console.log(54321, response.data)
+          // var res = []
+          // for (var i in response) {
+          //   res.push({
+          //       username: i.username,
+          //       fullName: i.fullName,
+          //       _id: i._id
+          //   });
+          // }
+          setFollowSuggestions(response.data)
+          //followSuggestions = response.data
+        })
+    }
+    fun()
+  }, [])
+  console.log(415, followSuggestions)
 ///function: suggestion on who to follow component, current user is a parameter to be passed
 
   return (
-    <p> hi </p>
+    <DataGridEx suggestedUsers={followSuggestions} />
   );
 }
 
@@ -35,3 +58,4 @@ const formik = useFormik({
   onSubmit: async (values) => await createPost(values),
 });
 */
+export default FollowSuggestions;

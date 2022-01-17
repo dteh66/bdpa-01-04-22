@@ -20,6 +20,7 @@ export default function CreateBarkForm(props) {
     const [url, setUrl] = useState(null)
     const [form, setForm] = useState({
         author: '',
+        authorID: '',
         title: '',
         content: '',
         deleted: false,
@@ -46,7 +47,9 @@ export default function CreateBarkForm(props) {
         e.preventDefault();
         setError(() => '');
         const author = state.username
+        const authorID = state.UID
         form.author = author
+        form.authorID = authorID
         if (author) {
             console.log("Barkcreate", form)
             await axios
@@ -56,7 +59,7 @@ export default function CreateBarkForm(props) {
                     }
                 })
                 .then((response) => {
-                    console.log("reponse: ", response)
+                    //console.log("reponse: ", response)
                     setUrl(response.data._id)
                 })
                 .catch((error) => {
@@ -66,7 +69,7 @@ export default function CreateBarkForm(props) {
             setSubmitted(true);
         } else {
             console.log("Not signed in. How tf u access this page")
-            navigate.push('/login');
+            navigate('/login');
         }
     }
     useEffect(() => {
@@ -80,7 +83,10 @@ export default function CreateBarkForm(props) {
                 submitted ?
                     <div>
                         Bark created! 
-                        Share with link: {API_URL + "/bark/:id/" + url}
+                        Share with link: {"localhost:3000" + "/bark/:id/" + url}
+                        <Button onClick = {() => navigate("/")}>
+                            Return home
+                        </Button>
                     </div> : 
                     <form onSubmit={handleSubmit}>
                         <Typography variant='h3'>Create Post</Typography>

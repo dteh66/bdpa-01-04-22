@@ -51,14 +51,15 @@ function Login(props) {
                 Cookies.set('token', response.data.token, {
                     expires: form.remember ? null : 1 / 24,
                 });
+                dispatch({ type: "getUser" })
                 navigate('/');
             })
             .catch((error) => {
                 console.log(error)
                 //setError(() => error.response.data);
+                console.log("hi2")
                 Cookies.remove('token')
             });
-        dispatch({ type: "getUser" })
     }
 
     return (

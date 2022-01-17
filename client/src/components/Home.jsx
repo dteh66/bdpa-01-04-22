@@ -7,10 +7,11 @@ import { Grid } from '@material-ui/core';
 import { DataGrid } from '@material-ui/data-grid';
 import { Pagination } from '@material-ui/lab';
 import { getPosts } from './barkFetch';
-import { Link } from "react-router-dom"
+import { Link, BrowserRouter } from "react-router-dom"
 import Bark from '../templates/Bark';
 import DataGridEx from '../templates/DataGridEx';
 import BarkCreate from './BarkCreate'
+import FollowSuggestions from './FollowSuggestions'
 import { UserContext } from "../contexts/User";
 
 export default function Home() {
@@ -29,43 +30,45 @@ export default function Home() {
 
   //sort barks from front end (aka here)
   const [state, dispatch] = React.useContext(UserContext)
-
-  const [postsFollowed, setPostsFollowed] = useState([])
-  const [postsOther, setPostsOther] = useState([])
+  var postsFollowed = []
+  var postsOther = []
   const [renderedPosts, setRenderedPosts] = useState([]);
   const itemLimit = 10;
   const API_URL = process.env.REACT_APP_APIURL
 
   useEffect(() => {
+    console.log("hi")
     const updatePosts = async () => {
       const fetchedPosts = await axios.get(API_URL + "/bark/", {
-          headers: {
-              'Authorization': 'Bearer ' + Cookies.get('token')
-          }
+        headers: {
+          'Authorization': 'Bearer ' + Cookies.get('token')
+        }
       })
-      .then((response) => {
-          //console.log("Home: getPosts returned ", response.data)
-          console.log(123,response.data.barks, 456, response.data.unfollowedBarks)
-          setPostsFollowed(response.data.barks)
-          setPostsOther(response.data.unfollowedBarks)
-      })
+        .then((response) => {
+          
+          postsFollowed = response.data.barks
+          postsOther = response.data.unfollowedBarks
+          //console.log(1134, postsFollowed, 1356, postsOther)
+          const toRender = (postsFollowed ?
+            (postsFollowed.slice(0, 5)).concat(postsOther.slice(0, 5))
+            :
+            (postsOther ? postsOther.slice(0, 5) : null))
+          setRenderedPosts(toRender)
+        })
+        //can't setState, then immediately reference the state. State will not have updated
     }
     updatePosts()
   }, []);
-  useEffect(() => {
-    setRenderedPosts(() => {
-      if (postsFollowed){
-        return postsFollowed.slice(0, 5).concat(postsOther.slice(0, 5))
-      }
-      return postsOther.slice(0,5);
-    })
-  }, [postsFollowed]);
   return (
     <>
-      {!state.loggedIn ? 
-        <Link to='/login' /> :
+      {!state.loggedIn ?
+        <Button>
+          Click to log in
+          <Link to='/login' />
+        </Button>
+        :
         <>
-          <DataGridEx />
+          <FollowSuggestions />
           <br></br>
           test
           <br></br>
@@ -75,18 +78,18 @@ export default function Home() {
         </>
       }
       <Grid container direction='column' justify='flex-start'>
-        test5
         {renderedPosts.map((post) => {
-         
+          return (
             <Bark key={post._id} object={post}>
-              test6
-              <Link to={`bark/${post._id}`}/>
+
+                <Link to={`barkview/${post._id}`} />
+
             </Bark>
-          
+          )
         })}
 
       </Grid>
-      
+
     </>
   );
   /* possibly use for suggesting followers

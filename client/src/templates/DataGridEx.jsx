@@ -4,37 +4,45 @@ import { DataGrid } from '@material-ui/data-grid';
 //implement with followSuggestions.jsx
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 90 },
+  // { 
+  //   field: '_id', 
+  //   headerName: 'ID', 
+  //   width: 90 
+  // },
   {
-    field: 'firstName',
-    headerName: 'First name',
+    field: 'username',
+    headerName: 'Username',
     width: 150,
-    editable: true,
-  },
-  {
-    field: 'lastName',
-    headerName: 'Last name',
-    width: 150,
-    editable: true,
-  },
-  {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 110,
-    editable: true,
+    editable: false,
   },
   {
     field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 160,
-    valueGetter: (params) =>
-      `${params.getValue(params.id, 'firstName') || ''} ${
-        params.getValue(params.id, 'lastName') || ''
-      }`,
+    headerName: 'Full Name',
+    width: 150,
+    editable: false,
+  },{ 
+    field: 'id', 
+    headerName: 'ID', 
+    width: 450 
   },
+  // {
+  //   field: 'age',
+  //   headerName: 'Age',
+  //   type: 'number',
+  //   width: 110,
+  //   editable: true,
+  // },
+  // {
+  //   field: 'fullName',
+  //   headerName: 'Full name',
+  //   description: 'This column has a value getter and is not sortable.',
+  //   sortable: false,
+  //   width: 160,
+  //   valueGetter: (params) =>
+  //     `${params.getValue(params.id, 'firstName') || ''} ${
+  //       params.getValue(params.id, 'lastName') || ''
+  //     }`,
+  // },
 ];
 
 const rows = [
@@ -49,16 +57,14 @@ const rows = [
   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 ];
 
-export default function DataGridDemo(suggestedUsers) {
-  
-  /*for i in suggestedUsers { 
-
-  }*/
+export default function DataGridEx({suggestedUsers}) {
+  console.log("hi56")
+  console.log("suggestedUsers:", suggestedUsers)
   return (
     <div style={{ height: 400, width: '100%' }}>
       <h1> Follow Suggestions </h1>
       <DataGrid
-        rows={rows}
+        rows={suggestedUsers}
         columns={columns}
         pageSize={5}
         checkboxSelection
