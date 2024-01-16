@@ -9,7 +9,6 @@ import { Pagination } from '@material-ui/lab';
 import { getPosts } from './barkFetch';
 import { Link, BrowserRouter } from "react-router-dom"
 import Bark from '../templates/Bark';
-import DataGridEx from '../templates/DataGridEx';
 import BarkCreate from './BarkCreate'
 import FollowSuggestions from './FollowSuggestions'
 import { UserContext } from "../contexts/User";
@@ -63,8 +62,7 @@ export default function Home() {
     <>
       {!state.loggedIn ?
         <Button>
-          Click to log in
-          <Link to='/login' />
+          <Link to='/login'>Click to log in to see follow suggestions</Link>
         </Button>
         :
         <>

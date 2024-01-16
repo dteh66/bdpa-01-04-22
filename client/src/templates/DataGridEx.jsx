@@ -57,6 +57,15 @@ const rows = [
   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 ];
 
+const handleCellClick = (
+  params, // GridRowParams
+  event, // MuiEvent<React.MouseEvent<HTMLElement>>
+  details, // GridCallbackDetails
+) => {
+  console.log("followed!")
+  // setMessage(`Movie "${params.row.title}" clicked`);
+};
+
 export default function DataGridEx({suggestedUsers}) {
   console.log("hi56")
   console.log("suggestedUsers:", suggestedUsers)
@@ -67,6 +76,8 @@ export default function DataGridEx({suggestedUsers}) {
         rows={suggestedUsers}
         columns={columns}
         pageSize={5}
+        // onRowClick={handleRowClick}
+        onCellClick={handleCellClick}
         checkboxSelection
         disableSelectionOnClick
       />

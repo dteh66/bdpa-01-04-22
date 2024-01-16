@@ -13,7 +13,7 @@ import Barkview from './components/Barkview'
 
 function App() {
     const [state, dispatch] = useContext(UserContext);
-    //a
+    
     // important stuff master
     // const setUser = async () => {
     //     const curToken = Cookies.get('token');

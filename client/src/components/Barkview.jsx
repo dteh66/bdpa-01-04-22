@@ -10,7 +10,6 @@ import { getPosts } from './barkFetch';
 import { Link, useParams } from "react-router-dom"
 
 import Bark from '../templates/Bark';
-import DataGridEx from '../templates/DataGridEx';
 
 
 import BarkCreate from './BarkCreate'

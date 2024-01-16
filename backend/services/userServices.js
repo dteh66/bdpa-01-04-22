@@ -38,7 +38,7 @@ const findFollowSuggestions = async userInfo => {
         _id: { $in: userInfo.followedUsers }
     }, {
         username: 1, fullName: 1
-    }).sort({ created: -1 }).limit(50)
+    }).sort({ created: -1 }).limit(5)
 
 
     for (var userID in fl) {
@@ -64,7 +64,7 @@ const findFollowSuggestions = async userInfo => {
         nl = await Users.find({
         }, {
             username: 1, fullName: 1
-        }).sort({ created: -1 }).limit(50)
+        }).sort({ created: -1 }).limit(5)
         return nl.map(element => ({ id: element._id, username: element.username, fullName: element.fullName }))
     } else {
         //console.log(hmap, "hmap was not empty")

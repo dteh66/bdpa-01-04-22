@@ -9,4 +9,5 @@ To run project:
 1. Run `npm start` in the react directory.
 2. Run `npm run dev` in the backend directory.
 
-"test commit"
+npm i express
+npm i dotenv
